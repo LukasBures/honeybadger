@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./src
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./src/:/usr/src/app/
+    ports:
+      - 8002:8000
+    environment: # specify the env-variables here
+      # secret ones in .env file or system
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      # sometimes the console won't show print messages, using PYTHONUNBUFFERED: 1 can fix this
+      PYTHONUNBUFFERED: 1
